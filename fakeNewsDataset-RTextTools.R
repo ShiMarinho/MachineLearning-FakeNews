@@ -11,7 +11,7 @@ library(dplyr)
 #  Loading the dataset ----
 # =============================================================================== =
 train_dataset <- read.csv("train.csv")
-# train_dataset <- read.csv("/home/adelo/gofaaas/r_prog/4-Fake_news_dataset_using_RTextTools_and_XGBoost/train.csv")
+train_dataset <- read.csv("/home/adelo/gofaaas/r_prog/4-Fake_news_dataset_using_RTextTools_and_XGBoost/train.csv")
 # train_dataset <- read.csv("/home/adelo/1-system/1-disco_local/1-mis_archivos/1-pe/1-ciencia/1-computacion/2-data_analysis-machine_learning/gofaaaz-machine_learning/r_prog/4-Fake_news_dataset_using_RTextTools_and_XGBoost/train.csv",  nrows = 100)
 
 
