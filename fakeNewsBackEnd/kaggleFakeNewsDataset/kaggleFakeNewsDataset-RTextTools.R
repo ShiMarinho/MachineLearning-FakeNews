@@ -119,7 +119,7 @@ date()
 
 
 # =============================================================================== =
-#  Makes predictions from the model created ----
+#  Making predictions from the model created ----
 # =============================================================================== =
 # Makes predictions from a train_models() object
 results <- classify_models(container, models)
@@ -130,7 +130,7 @@ head(results)
 
 
 # =============================================================================== =
-#  Determining the accuracy of prediction results ----
+#  Determining the accuracy of prediction results and displaying a Confusion matrix ----
 # =============================================================================== =
 # Building a confusion matrix
 out = data.frame(model_prob   = results$TREE_PROB,
