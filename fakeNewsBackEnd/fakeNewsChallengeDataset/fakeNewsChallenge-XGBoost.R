@@ -18,8 +18,8 @@ library(dplyr)
 train_stances <- read.csv("/home/adelo/gofaaas/r_prog/FakeNewsChallenge/train_stances.csv")
 train_bodies  <- read.csv("/home/adelo/gofaaas/r_prog/FakeNewsChallenge/train_bodies.csv")
 # 
-# train_stances <- read.csv("/home/adelo/1-system/desktop/it_cct/5-Applied_Technology_Group_Project/gofaaaz-machine_learning/r_prog/6-FakeNewsChallenge/train_stances.csv",  nrows = 1000)
-# train_bodies  <- read.csv("/home/adelo/1-system/desktop/it_cct/5-Applied_Technology_Group_Project/gofaaaz-machine_learning/r_prog/6-FakeNewsChallenge/train_bodies.csv",  nrows = 1000)
+train_stances <- read.csv("/home/adelo/1-system/desktop/it_cct/5-Applied_Technology_Group_Project/gofaaaz-machine_learning/r_prog/6-FakeNewsChallenge/train_stances.csv",  nrows = 1000)
+train_bodies  <- read.csv("/home/adelo/1-system/desktop/it_cct/5-Applied_Technology_Group_Project/gofaaaz-machine_learning/r_prog/6-FakeNewsChallenge/train_bodies.csv",  nrows = 1000)
 
 
 
