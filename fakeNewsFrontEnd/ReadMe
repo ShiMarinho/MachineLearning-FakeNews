@@ -1,1 +1,37 @@
 
+File Information:
+====================
+
+app.R           
+ui.R
+server.R        This file contains file details as given below. You need to 
+                
+                # change folder as per your pc but please don't change file name  
+                create_readData_file<-"D:/RWebProject/ShinyApp-ver1/ver03/readData.txt"  
+                
+                # change folder as per your pc and R script name  
+                algorithm_file_path<-"D:/RWebProject/ShinyApp-ver1/ver03/action.R"
+                
+                # change folder as per your pc but please don't change file name  
+                create_Result_file<- "D:/RWebProject/ShinyApp-ver1/ver03/result.txt"
+  
+action.R        This is algorithm file . it may be changed with your file. 
+
+sample.txt      this is the test file for uploading file
+readData.txt    You don't need to create this file because it will create automatically as we upload or write in text field 
+                and then click submit
+result.txt      You don't need to create this file because it will create automatically as action.R runs 
+
+
+Input types:  
+1- input text 
+2- upload text file
+Result is shown after clicking on SUBMIT BUTTON
+[Note: for file upload the text field should be empty and then click on SUBMIT button]
+
+Procedure:
+Step 1:   Once "text" OR "file upload" is done a new file "readData.txt" is created which contains the text inside
+Step 2:   Then "action.R" script is called automatically .  
+Step 3:   This script read text from file "readdata.txt" and converts text into its relative ASCII code.
+Step 4:   Now it creates new file "result.txt" and save its result into it.
+Step 5:   In the last our shiny app reads data from file "result.txt" and print the result 
