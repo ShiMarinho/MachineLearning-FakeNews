@@ -16,7 +16,7 @@ library(ggplot2)
 #  Reading the data ----
 # =============================================================================== =
 
-data <- read.csv("fakeNewsBackEnd/manualNewsDataset/data_manual.csv")
+data <- read.csv("fakeNewsBackEnd/manualNewsDataset/goofaasDataset.csv")
 #View the first few lines of the dataset
 head(data)
 View(data)
