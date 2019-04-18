@@ -15,6 +15,7 @@ library(ggplot2)
 # =============================================================================== =
 #  Reading the data ----
 # =============================================================================== =
+<<<<<<< HEAD
 
 data <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
 #View the first few lines of the dataset
@@ -24,12 +25,18 @@ dim(data)
 
 #Find the proportions of unreliable from reliable news
 
+=======
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 train <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
 #View the first few lines of the dataset
 head(data)
 
+<<<<<<< HEAD
 #Find the proportions of relaible vs unreliable news
 
+=======
+#Find the proportions of junk vs legitimate sms messages
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 table(data$label)
 prop.table(table(data$label))
 
@@ -43,7 +50,10 @@ reliable <- subset(data, label == 0)
 wordcloud(reliable$text, max.words = 60, colors = brewer.pal(7, "Paired"), random.order = FALSE)
 
 # =============================================================================== =
+<<<<<<< HEAD
 
+=======
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 #  Data Processing ----
 # =============================================================================== =
 
@@ -54,6 +64,7 @@ prop.table(table(data$label))
 ## CLEANNING THE DATA ##
 ## The VectorSource() function will create one document for each sms text message. 
 ## The Vcorpus() function to create a volatile corpus from these individual text messages.
+<<<<<<< HEAD
 
 dataCorpus <- VCorpus(VectorSource(data$text))
 
@@ -61,6 +72,11 @@ dataCorpus <- VCorpus(VectorSource(data$label))
 
 
 
+=======
+dataCorpus <- VCorpus(VectorSource(data$label))
+
+
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 data_dtm <- DocumentTermMatrix(dataCorpus, control = 
                                  list(tolower = TRUE, #Converts to lowecase
                                       removeNumbers = TRUE, #Removes numbers
@@ -138,13 +154,19 @@ prop.table(table(test_set$label))
 ## predictions with naive bayes
 
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
+<<<<<<< HEAD
 system.time(classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
                                         trControl = control,tuneLength = 7) )
+=======
+system.time( classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
+                                         trControl = control,tuneLength = 7) )
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 
 
 nb_pred = predict(classifier_nb, type = 'class', newdata = test_set)
 
 confusionMatrix(nb_pred,test_set$label)
+<<<<<<< HEAD
 
 ##using cross validation
 control2 <- trainControl(method="cv", 10)
@@ -156,3 +178,5 @@ sms_model1
 sms_model1_predict= predict(sms_model1, test_set)
 
 confusionMatrix(sms_model1_predict, test_set$label)
+=======
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4

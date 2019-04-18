@@ -15,38 +15,36 @@ library(ggplot2)
 # =============================================================================== =
 #  Reading the data ----
 # =============================================================================== =
-
-
-train_stances <- read.csv("fakeNewsBackEnd/fakeNewsChallengeDataset/train_stances.csv")
-
-dataset <- merge(train_stances, train_bodies)
-View(dataset)
-dim(dataset)
-
-train_stances <- read.csv("fakeNewsBackEnd/fakeNewsChallengeDataset/train_stances.csv", nrows=1000)
-dataset <- merge(train_stances, train_bodies)
-View(dataset)
-
+data<- read.csv("~/Downloads/train (1).csv")
 #View the first few lines of the dataset
-head(dataset)
+head(data)
 
-#Find the proportions of agree, disgree, discuss, unrelated
-table(dataset$Stance)
-prop.table(table(dataset$Stance))
+#Find the proportions of junk vs legitimate sms messages
+table(data$label)
+prop.table(table(data$label))
+
+# =============================================================================== =
+#  Data Visualization ----
+# =============================================================================== =
+unreliable <- subset(data, label == 1)
+wordcloud(unreliable$text, max.words = 60, colors = brewer.pal(7, "Paired"), random.order = FALSE)
+
+reliable <- subset(data, label == 0)
+wordcloud(reliable$text, max.words = 60, colors = brewer.pal(7, "Paired"), random.order = FALSE)
 
 # =============================================================================== =
 #  Data Processing ----
 # =============================================================================== =
 
 ## Convert the label column from Character strings to factor. 
-dataset$Stance <- factor(dataset$Stance)
-prop.table(table(dataset$Stance))
+data$label <- factor(data$label)
+prop.table(table(data$label))
 
 ## CLEANNING THE DATA ##
 ## The VectorSource() function will create one document for each sms text message. 
 ## The Vcorpus() function to create a volatile corpus from these individual text messages.
+dataCorpus <- VCorpus(VectorSource(data$label))
 
-dataCorpus <- VCorpus(VectorSource(dataset$Stance))
 
 data_dtm <- DocumentTermMatrix(dataCorpus, control = 
                                  list(tolower = TRUE, #Converts to lowecase
@@ -59,8 +57,10 @@ dim(data_dtm)
 data_dtm
 
 ## remove all terms in the corpus whose sparsity is greater than 90%.
-data_dtm = removeSparseTerms(data_dtm, 0.90)
+data_dtm = removeSparseTerms(dtm, 0.90)
 dim(data_dtm)
+
+inspect(data_dtm[40:50, 10:15])
 
 ## Converting the word frequencies to Yes and No Labels ##
 convert_count <- function(x) {
@@ -71,7 +71,7 @@ convert_count <- function(x) {
 
 ##  Apply the convert_count function to get final training and testing DTMs ##
 dataNB <- apply(data_dtm, 2, convert_count)
-data = as.data.frame(as.matrix(dataNB))
+dataset = as.data.frame(as.matrix(dataNB))
 
 # =============================================================================== =
 #  Descriptive and Exploratory Analysis of the data ----
@@ -81,7 +81,8 @@ data = as.data.frame(as.matrix(dataNB))
 freq<- sort(colSums(as.matrix(data_dtm)), decreasing=TRUE)
 tail(freq, 10)
 
-#identifying terms that appears frequently
+#identifying terms that 
+appears frequently
 findFreqTerms(data_dtm, lowfreq=60) 
 
 ## Plotting Word Frequency
@@ -98,7 +99,7 @@ wordcloud(words = wf$word, freq = wf$freq, min.freq = 1,
 # Adding the label variable to the Dataset
 # The text data has been cleaned and now ready to be added to 
 #the response variable “label” for the purpose of predictive analytics.
-data$Stance = dataset$Stance
+dataset$label = data$label
 
 
 # =============================================================================== =
@@ -106,13 +107,13 @@ data$Stance = dataset$Stance
 # =============================================================================== =
 
 set.seed(222)
-split = sample(2,nrow(data),prob = c(0.80,0.20),replace = TRUE)
-train_set = data[split == 1,]
-test_set = data[split == 2,] 
+split = sample(2,nrow(dataset),prob = c(0.80,0.20),replace = TRUE)
+train_set = dataset[split == 1,]
+test_set = dataset[split == 2,] 
 
 # Check the proportion of the data split.
-prop.table(table(train_set$Stance))
-prop.table(table(test_set$Stance))
+prop.table(table(train_set$label))
+prop.table(table(test_set$label))
 
 # =============================================================================== =
 #  Model Fitting ----
@@ -123,11 +124,10 @@ prop.table(table(test_set$Stance))
 ## predictions with naive bayes
 
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
-system.time( classifier_nb <- naiveBayes(train_set, train_set$Stance, laplace = 1,
+system.time( classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
                                          trControl = control,tuneLength = 7) )
 
 
 nb_pred = predict(classifier_nb, type = 'class', newdata = test_set)
 
-confusionMatrix(nb_pred,test_set$Stance)
-
+confusionMatrix(nb_pred,test_set$label)
