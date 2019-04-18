@@ -14,9 +14,9 @@ library(Matrix)
 # =============================================================================== =
 #  Loading the dataset ----
 # =============================================================================== =
-train_dataset <- read.csv("train.csv")
+# train_dataset <- read.csv("train.csv")
 # train_dataset <- read.csv("/home/adelo/gofaaas/r_prog/4-Fake_news_dataset_using_RTextTools_and_XGBoost/train.csv")
-# train_dataset <- read.csv("/home/adelo/1-system/1-disco_local/1-mis_archivos/1-pe/1-ciencia/1-computacion/2-data_analysis-machine_learning/gofaaaz-machine_learning/r_prog/4-Fake_news_dataset_using_RTextTools_and_XGBoost/train.csv",  nrows = 100)
+train_dataset <- read.csv("/home/adelo/1-system/desktop/it_cct/5-Applied_Technology_Group_Project/gofaaaz-machine_learning/r_prog/5-KaggleFakeNewsDataset_using_RTextTools_and_XGBoost/train.csv",  nrows = 1000)
 
 
 
@@ -129,7 +129,7 @@ xgb_params = list(
 
 
 date()
-xgb_fit <- xgboost(data = train_matrix, params = xgb_params, nrounds = 10000, print_every_n = 500)
+xgb_fit <- xgboost(data = train_matrix, params = xgb_params, nrounds = 100, print_every_n = 10)
 date()
 
 
@@ -192,5 +192,6 @@ xgb.plot.importance(importance_vars_train, top_n = sum(cumsum(importance_vars_tr
 xgb.plot.importance(importance_vars_test, top_n = 20)
 xgb.plot.importance(importance_vars_test, top_n = sum(importance_vars_test$Gain >= 0.05))
 xgb.plot.importance(importance_vars_test, top_n = sum(cumsum(importance_vars_test$Gain) <= 0.85))
+
 
 

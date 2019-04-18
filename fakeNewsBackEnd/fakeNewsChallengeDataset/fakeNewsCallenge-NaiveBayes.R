@@ -16,12 +16,20 @@ library(ggplot2)
 #  Reading the data ----
 # =============================================================================== =
 
+<<<<<<< HEAD
 train_bodies <- read.csv("fakeNewsBackEnd/fakeNewsChallengeDataset/train_bodies.csv")
 train_stances <- read.csv("fakeNewsBackEnd/fakeNewsChallengeDataset/train_stances.csv")
 
 dataset <- merge(train_stances, train_bodies)
 View(dataset)
 dim(dataset)
+=======
+train_bodies <- read.csv("fakeNewsBackEnd/fakeNewsChallengeDataset/train_bodies.csv", nrows = 1000)
+train_stances <- read.csv("fakeNewsBackEnd/fakeNewsChallengeDataset/train_stances.csv", nrows=1000)
+
+dataset <- merge(train_stances, train_bodies)
+View(dataset)
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 #View the first few lines of the dataset
 head(dataset)
 
@@ -40,7 +48,11 @@ prop.table(table(dataset$Stance))
 ## CLEANNING THE DATA ##
 ## The VectorSource() function will create one document for each sms text message. 
 ## The Vcorpus() function to create a volatile corpus from these individual text messages.
+<<<<<<< HEAD
 dataCorpus <- VCorpus(VectorSource(dataset$articleBody))
+=======
+dataCorpus <- VCorpus(VectorSource(dataset$Stance))
+>>>>>>> 51b543c625608f136998a50e9e95879eb7bffbe4
 
 
 data_dtm <- DocumentTermMatrix(dataCorpus, control = 

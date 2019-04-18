@@ -15,6 +15,7 @@ library(ggplot2)
 # =============================================================================== =
 #  Reading the data ----
 # =============================================================================== =
+
 data <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
 #View the first few lines of the dataset
 head(data)
@@ -22,6 +23,13 @@ View(data)
 dim(data)
 
 #Find the proportions of unreliable from reliable news
+
+train <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
+#View the first few lines of the dataset
+head(data)
+
+#Find the proportions of relaible vs unreliable news
+
 table(data$label)
 prop.table(table(data$label))
 
@@ -35,6 +43,7 @@ reliable <- subset(data, label == 0)
 wordcloud(reliable$text, max.words = 60, colors = brewer.pal(7, "Paired"), random.order = FALSE)
 
 # =============================================================================== =
+
 #  Data Processing ----
 # =============================================================================== =
 
@@ -45,7 +54,11 @@ prop.table(table(data$label))
 ## CLEANNING THE DATA ##
 ## The VectorSource() function will create one document for each sms text message. 
 ## The Vcorpus() function to create a volatile corpus from these individual text messages.
+
 dataCorpus <- VCorpus(VectorSource(data$text))
+
+dataCorpus <- VCorpus(VectorSource(data$label))
+
 
 
 data_dtm <- DocumentTermMatrix(dataCorpus, control = 
@@ -108,7 +121,7 @@ dataset$label = data$label
 # =============================================================================== =
 
 set.seed(222)
-split = sample(2,nrow(dataset),prob = c(0.30,0.10),replace = TRUE)
+split = sample(2,nrow(dataset),prob = c(0.80,0.20),replace = TRUE)
 train_set = dataset[split == 1,]
 test_set = dataset[split == 2,] 
 
@@ -125,10 +138,21 @@ prop.table(table(test_set$label))
 ## predictions with naive bayes
 
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
-system.time( classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
-                                         trControl = control,tuneLength = 7) )
+system.time(classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
+                                        trControl = control,tuneLength = 7) )
 
 
 nb_pred = predict(classifier_nb, type = 'class', newdata = test_set)
 
 confusionMatrix(nb_pred,test_set$label)
+
+##using cross validation
+control2 <- trainControl(method="cv", 10)
+
+sms_model1 <- train(train_set, train_set$label, method="nb",
+                    trControl=control2)
+sms_model1
+
+sms_model1_predict= predict(sms_model1, test_set)
+
+confusionMatrix(sms_model1_predict, test_set$label)

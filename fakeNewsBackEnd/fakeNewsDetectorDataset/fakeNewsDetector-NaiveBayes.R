@@ -18,7 +18,8 @@ library(ggplot2)
 data<- read.csv("fakeNewsBackEnd/fakeNewsDetectorDataset/data.csv")
 #View the first few lines of the dataset
 head(data)
-
+View(data)
+dim(data)
 #Find the proportions of reliable vs unreliable news
 table(data$label)
 prop.table(table(data$label))
@@ -57,7 +58,7 @@ dim(data_dtm)
 data_dtm
 
 ## remove all terms in the corpus whose sparsity is greater than 90%.
-data_dtm = removeSparseTerms(dtm, 0.90)
+data_dtm = removeSparseTerms(data_dtm, 0.90)
 dim(data_dtm)
 
 inspect(data_dtm[40:50, 10:15])
@@ -123,10 +124,21 @@ prop.table(table(test_set$label))
 ## predictions with naive bayes
 
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
-system.time( classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
-                                         trControl = control,tuneLength = 7) )
+system.time(classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
+                                        trControl = control,tuneLength = 7) )
 
 
 nb_pred = predict(classifier_nb, type = 'class', newdata = test_set)
 
 confusionMatrix(nb_pred,test_set$label)
+
+##using cross validation
+control2 <- trainControl(method="cv", 10)
+
+sms_model1 <- train(train_set, train_set$label, method="nb",
+                    trControl=control2)
+sms_model1
+
+sms_model1_predict= predict(sms_model1, test_set)
+
+confusionMatrix(sms_model1_predict, test_set$label)
