@@ -15,11 +15,19 @@ library(ggplot2)
 # =============================================================================== =
 #  Reading the data ----
 # =============================================================================== =
-train <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
+
+data <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
+#View the first few lines of the dataset
+head(data)
+View(data)
+dim(data)
+
+#Find the proportions of unreliable from reliable news
+
 #View the first few lines of the dataset
 head(data)
 
-#Find the proportions of junk vs legitimate sms messages
+#Find the proportions of reliable vs unreliable news
 table(data$label)
 prop.table(table(data$label))
 
@@ -43,8 +51,8 @@ prop.table(table(data$label))
 ## CLEANNING THE DATA ##
 ## The VectorSource() function will create one document for each sms text message. 
 ## The Vcorpus() function to create a volatile corpus from these individual text messages.
-dataCorpus <- VCorpus(VectorSource(data$label))
 
+dataCorpus <- VCorpus(VectorSource(data$label))
 
 data_dtm <- DocumentTermMatrix(dataCorpus, control = 
                                  list(tolower = TRUE, #Converts to lowecase
@@ -123,10 +131,22 @@ prop.table(table(test_set$label))
 ## predictions with naive bayes
 
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
-system.time( classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
-                                         trControl = control,tuneLength = 7) )
 
+system.time(classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
+                                        trControl = control,tuneLength = 7) )
 
 nb_pred = predict(classifier_nb, type = 'class', newdata = test_set)
 
-confusionMatrix(nb_pred,test_set$label)
+
+
+##using cross validation
+control2 <- trainControl(method="cv", 10)
+
+sms_model1 <- train(train_set, train_set$label, method="nb",
+                    trControl=control2)
+sms_model1
+
+sms_model1_predict= predict(sms_model1, test_set)
+
+confusionMatrix(sms_model1_predict, test_set$label)
+
