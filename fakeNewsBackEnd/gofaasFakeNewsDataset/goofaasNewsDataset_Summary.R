@@ -1,7 +1,7 @@
 # gofaas dataset description
 # total fof 510 entries
-# 304 - 0 (60%)
-# 206 - 1 (40%)
+# 304 - 0 (60%) - reliable 
+# 206 - 1 (40%) - unreliable
 
 #libraries
 library(RTextTools)
