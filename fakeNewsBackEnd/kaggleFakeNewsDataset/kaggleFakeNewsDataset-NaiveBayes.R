@@ -15,6 +15,10 @@ library(ggplot2)
 # =============================================================================== =
 #  Reading the data ----
 # =============================================================================== =
+<<<<<<< HEAD
+
+=======
+>>>>>>> e20d983923deb1380ba231177fe8131d60dfe506
 
 data <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
 #View the first few lines of the dataset
@@ -24,10 +28,18 @@ dim(data)
 
 #Find the proportions of unreliable from reliable news
 
+<<<<<<< HEAD
+train <- read.csv("fakeNewsBackEnd/kaggleFakeNewsDataset/train.csv")
+#View the first few lines of the dataset
+head(data)
+
+#Find the proportions of relaible vs unreliable news
+=======
 #View the first few lines of the dataset
 head(data)
 
 #Find the proportions of reliable vs unreliable news
+>>>>>>> e20d983923deb1380ba231177fe8131d60dfe506
 table(data$label)
 prop.table(table(data$label))
 
@@ -53,7 +65,10 @@ prop.table(table(data$label))
 ## The Vcorpus() function to create a volatile corpus from these individual text messages.
 
 dataCorpus <- VCorpus(VectorSource(data$label))
+<<<<<<< HEAD
+=======
 
+>>>>>>> e20d983923deb1380ba231177fe8131d60dfe506
 data_dtm <- DocumentTermMatrix(dataCorpus, control = 
                                  list(tolower = TRUE, #Converts to lowecase
                                       removeNumbers = TRUE, #Removes numbers
@@ -132,8 +147,15 @@ prop.table(table(test_set$label))
 
 control <- trainControl(method="repeatedcv", number=10, repeats=3)
 
+<<<<<<< HEAD
+system.time( classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
+                                         trControl = control,tuneLength = 7) )
+
+
+=======
 system.time(classifier_nb <- naiveBayes(train_set, train_set$label, laplace = 1,
                                         trControl = control,tuneLength = 7) )
+>>>>>>> e20d983923deb1380ba231177fe8131d60dfe506
 
 nb_pred = predict(classifier_nb, type = 'class', newdata = test_set)
 
