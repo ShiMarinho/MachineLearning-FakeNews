@@ -19,4 +19,4 @@ In short, we are filtering out the fake.
 
 
 
-source: ARC (Academic Research Collection)ARC (https://arc.cct.ie/ict/5/, https://arc.cct.ie/cgi/viewcontent.cgi?article=1004&context=ict)
+source: ARC (Academic Research Collection) (https://arc.cct.ie/ict/5/, https://arc.cct.ie/cgi/viewcontent.cgi?article=1004&context=ict)
