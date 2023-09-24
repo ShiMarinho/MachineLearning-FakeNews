@@ -1,4 +1,4 @@
-Title: Supervised Machine Learning Models for Fake News Detection
+## Title: Supervised Machine Learning Models for Fake News Detection
 
 Fake News noun [ U ]
 
